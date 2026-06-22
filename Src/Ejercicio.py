@@ -2,11 +2,12 @@ import random
 import string
 import pyperclip
 
-# Función para generar la contraseña
+# Genera una contraseña según las opciones seleccionadas por el usuario
 def generar_contrasena(longitud, mayusculas, minusculas, numeros, especiales):
 
     caracteres = ""
 
+    # Construcción del conjunto de caracteres disponibles
     if mayusculas:
         caracteres += string.ascii_uppercase
 
@@ -17,13 +18,15 @@ def generar_contrasena(longitud, mayusculas, minusculas, numeros, especiales):
         caracteres += string.digits
 
     if especiales:
-       caracteres += "!@#*$&.-"
+        caracteres += "!@#*$&.-"
 
+    # Validación: debe existir al menos un tipo de carácter
     if caracteres == "":
         return None
 
     contrasena = ""
 
+    # Generación aleatoria de la contraseña
     for i in range(longitud):
         contrasena += random.choice(caracteres)
 
@@ -36,7 +39,18 @@ print("================================")
 
 while True:
 
-    longitud = int(input("\nIngrese la longitud de la contraseña: "))
+    # Validación de longitud
+    while True:
+        try:
+            longitud = int(input("\nIngrese la longitud de la contraseña: "))
+
+            if longitud >= 8:
+                break
+
+            print("La longitud debe ser mayor o igual que 8.")
+
+        except ValueError:
+            print("Ingrese un número válido.")
 
     mayusculas = input("¿Incluir mayúsculas? (s/n): ").lower() == "s"
     minusculas = input("¿Incluir minúsculas? (s/n): ").lower() == "s"
@@ -57,17 +71,19 @@ while True:
         print("\nContraseña generada:")
         print(contrasena)
 
-        # Copiar al portapapeles
-        copiar = input("\n¿Desea copiar la contraseña al portapaspeles? (s/n): ").lower()
+        # Permite copiar la contraseña generada al portapapeles
+        copiar = input(
+            "\n¿Desea copiar la contraseña al portapapeles? (s/n): "
+        ).lower()
 
         if copiar == "s":
             pyperclip.copy(contrasena)
-            print("✔ Contraseña copiada al portapapeles")
+            print("Contraseña copiada al portapapeles.")
 
     repetir = input(
         "\n¿Desea generar otra contraseña? (s/n): "
     ).lower()
-
+    
     if repetir != "s":
         print("\nPrograma finalizado.")
         break
