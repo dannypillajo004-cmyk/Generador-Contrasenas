@@ -44,10 +44,10 @@ while True:
         try:
             longitud = int(input("\nIngrese la longitud de la contraseña: "))
 
-            if longitud >= 8:
+            if longitud > 8:
                 break
 
-            print("La longitud debe ser mayor o igual que 8.")
+            print("La longitud debe ser mayor que 8")
 
         except ValueError:
             print("Ingrese un número válido.")
@@ -83,7 +83,7 @@ while True:
     repetir = input(
         "\n¿Desea generar otra contraseña? (s/n): "
     ).lower()
-    
+
     if repetir != "s":
         print("\nPrograma finalizado.")
         break
