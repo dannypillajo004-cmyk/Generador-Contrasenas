@@ -2,12 +2,18 @@ import random
 import string
 import pyperclip
 
-# Genera una contraseña segun las opciones seleccionadas por el usuario
+# Uso de una Tupla: caracteres especiales fijos (no modificables)
+CARACTERES_ESPECIALES = ("!", "@", "#", "*", "$", "&", ".", "-")
+
+# Lista: almacena historial de contraseñas generadas
+historial_contrasenas = []
+
+# Genera una contraseña según las opciones del usuario
 def generar_contrasena(longitud, mayusculas, minusculas, numeros, especiales):
 
     caracteres = ""
 
-    # Construccion del conjunto de caracteres disponibles
+    # Se construye el conjunto de caracteres permitido
     if mayusculas:
         caracteres += string.ascii_uppercase
 
@@ -17,16 +23,18 @@ def generar_contrasena(longitud, mayusculas, minusculas, numeros, especiales):
     if numeros:
         caracteres += string.digits
 
+    # Se agregan caracteres especiales desde la tupla
     if especiales:
-        caracteres += "!@#*$&.-"
+        for simbolo in CARACTERES_ESPECIALES:
+            caracteres += simbolo
 
-    # Validacion: debe existir al menos un tipo de carácter
+    # Validación: debe haber al menos un tipo de carácter
     if caracteres == "":
         return None
 
     contrasena = ""
 
-    # Generacion aleatoria de la contraseña
+    # Generación aleatoria de la contraseña
     for i in range(longitud):
         contrasena += random.choice(caracteres)
 
@@ -39,7 +47,6 @@ print("================================")
 
 while True:
 
-    # Validación de longitud
     while True:
         try:
             longitud = int(input("\nIngrese la longitud de la contraseña: "))
@@ -71,19 +78,23 @@ while True:
         print("\nContraseña generada:")
         print(contrasena)
 
-        # Permite copiar la contraseña generada al portapapeles
-        copiar = input(
-            "\n¿Desea copiar la contraseña al portapapeles? (s/n): "
-        ).lower()
+        # Se guarda en el historial
+        historial_contrasenas.append(contrasena)
+
+        copiar = input("\n¿Desea copiar la contraseña al portapapeles? (s/n): ").lower()
 
         if copiar == "s":
             pyperclip.copy(contrasena)
             print("Contraseña copiada al portapapeles.")
 
-    repetir = input(
-        "\n¿Desea generar otra contraseña? (s/n): "
-    ).lower()
+    repetir = input("\n¿Desea generar otra contraseña? (s/n): ").lower()
 
     if repetir != "s":
         print("\nPrograma finalizado.")
+
+        # Muestra el historial guardado
+        print("\nHistorial de contraseñas generadas:")
+        for item in historial_contrasenas:
+            print("-", item)
+
         break
